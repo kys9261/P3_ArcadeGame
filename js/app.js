@@ -12,7 +12,7 @@ var Enemy = function(x,y) {
     this.x = x;
     this.y = y;
 
-}
+};
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -27,12 +27,12 @@ Enemy.prototype.update = function(dt) {
     }else{
         this.x = -60+dt
     }
-}
+};
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -41,14 +41,14 @@ var Player = function(x,y){
     this.sprite = 'images/char-boy.png'
     this.x = x;
     this.y = y;
-}
+};
 
 Player.prototype.update = function(){
-    if(this.y < 50){
+    if(this.y < 30){
         player.reset();
         addScore();
     }
-}
+};
 
 //Change Character function
 //0:boy 1:cat-girl 2:horn-girl 3:pink-girl 4:princess-girl
@@ -77,28 +77,28 @@ Player.prototype.changeChar = function(code){
             this.sprite = 'images/char-princess-girl.png'
             break;
     } 
-}
+};
 
 Player.prototype.render = function(){
     ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 Player.prototype.handleInput = function(keyCode){
     if(keyCode == 'left' && this.x > 0){
-        this.x -= 100;    
+        this.x -= 101;    
     }else if(keyCode == 'right' && this.x < 400){
-        this.x += 100; 
+        this.x += 101; 
     }else if(keyCode == 'up'){
-        this.y -= 82; 
+        this.y -= 83; 
     }else if(keyCode == 'down' && this.y < 300){
-        this.y += 82; 
+        this.y += 83; 
     }
-}
+};
 
 Player.prototype.reset = function(){
     this.x = 200;
     this.y = 380;
-}
+};
 
 
 // Now instantiate your objects.
@@ -129,11 +129,13 @@ document.addEventListener('keyup', function(e) {
 //collision check between enemy and player
 var checkCollisions = function(){
     allEnemies.forEach(function(enemy){ 
-        if(enemy.x < player.x + 30 && enemy.x + 60 > player.x && enemy.y < player.y + 60 && enemy.y + 40 > player.y) {
-            player.reset();
+        if(enemy.x < player.x + 30 && enemy.x + 60 > player.x){
+            if(enemy.y < player.y + 60 && enemy.y + 40 > player.y){
+                player.reset();
+            }
         }
     });
-}
+};
 
 //add score and redraw on canvas
 var addScore = function(){
@@ -145,4 +147,4 @@ var addScore = function(){
         score = score + 1;
         ctx.fillText(score, 470,30);    
     }
-}
+};
